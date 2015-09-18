@@ -29,6 +29,7 @@ func init() {
 	runtime.LockOSThread()
 }
 
+	/* *****************  KEYBOARD INPUT ******************** */
 func onKey(w *glfw.Window, key glfw.Key, scancode int,
 			action glfw.Action, mods glfw.ModifierKey) {
 
@@ -37,10 +38,11 @@ func onKey(w *glfw.Window, key glfw.Key, scancode int,
 			w.SetShouldClose(true)
 		}
 }
+
 func main() {
 
 	
-	// *************  OPENGL / GLFW INIT CODE  ****************
+	// *************  OPENGL / GLFW INIT CODE  ************** */
 
 	if err:=glfw.Init(); err != nil {
 		log.Fatalln("failed to initialize glfw")
@@ -61,6 +63,7 @@ func main() {
 
 	window.MakeContextCurrent();
 
+	//Print OpenGL Version to console
 	version := gl.GoStr(gl.GetString(gl.VERSION))
 	fmt.Println("OpenGL Version", version)
 
@@ -75,18 +78,23 @@ func main() {
 
 	C.ovr_Initialize(nil)
 
+	// find number of headsets
 	hmdCount := (int)(C.ovrHmd_Detect())
+	// print headset count
 	fmt.Println(hmdCount)
 	fmt.Printf("Found " + string(hmdCount) + " connected Rift device(s)\n")
 
+	// Create and destroy each headset found
 	for i:= 0; i < hmdCount; i++ {
 		hmd := C.ovrHmd_Create((C.int)(i))
+		//Print headset name
 		fmt.Println(C.GoString(hmd.ProductName))
 		C.ovrHmd_Destroy(hmd);
 
 	}
 
-	hmd := C.ovrHmd_CreateDebug(6)
+	// Create a fake debugging headset, print it's name, then destroy it
+	hmd := C.ovrHmd_CreateDebug(C.ovrHmd_DK2)
 	fmt.Println(C.GoString(hmd.ProductName))
 	C.ovrHmd_Destroy(hmd)
 
@@ -95,6 +103,9 @@ func main() {
 	/* ***************************************************** */
 
 	//previousTime := glfw.GetTime()
+
+
+	/* *******************   MAIN LOOP  ******************** */
 
 	for !window.ShouldClose() {
 		gl.Clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
@@ -107,6 +118,7 @@ func main() {
 
 		//Swap buffers
 		window.SwapBuffers()
+		//Poll for events (keyboard, resize, etc)
 		glfw.PollEvents()
 
 	}
