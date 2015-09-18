@@ -11,11 +11,67 @@ package main
 import "C"
 
 
-import "fmt"
+import (
+	"fmt"
+	"runtime"
+	"log"
 
+	"github.com/go-gl/gl/v4.1-core/gl"
+	"github.com/go-gl/glfw/v3.1/glfw"
+)
+
+
+const WindowWidth = 1000
+const WindowHeight = 800
+
+func init() {
+
+	runtime.LockOSThread()
+}
+
+func onKey(w *glfw.Window, key glfw.Key, scancode int,
+			action glfw.Action, mods glfw.ModifierKey) {
+
+		if key == glfw.KeyEscape && action == glfw.Press {
+			fmt.Println("Close Window")
+			w.SetShouldClose(true)
+		}
+}
 func main() {
 
-	fmt.Printf("Importing worked.\n")
+	
+	// *************  OPENGL / GLFW INIT CODE  ****************
+
+	if err:=glfw.Init(); err != nil {
+		log.Fatalln("failed to initialize glfw")
+	}
+	defer glfw.Terminate()
+
+	glfw.WindowHint(glfw.Resizable, glfw.False)
+	glfw.WindowHint(glfw.ContextVersionMajor, 4)
+	glfw.WindowHint(glfw.ContextVersionMinor, 1)
+	glfw.WindowHint(glfw.OpenGLProfile, glfw.OpenGLCoreProfile)
+	glfw.WindowHint(glfw.OpenGLForwardCompatible, glfw.True)
+	
+	window, err := glfw.CreateWindow(WindowWidth, WindowHeight, "LinuxVR", nil, nil)
+
+	if gl.Init(); err != nil {
+		panic(err)
+	}
+
+	window.MakeContextCurrent();
+
+	version := gl.GoStr(gl.GetString(gl.VERSION))
+	fmt.Println("OpenGL Version", version)
+
+	//keyboard input callback
+	window.SetKeyCallback(onKey);
+
+	/* **************************************************** */
+
+
+
+	/* ****************    OVR INIT CODE  ***************** */
 
 	C.ovr_Initialize(nil)
 
@@ -25,16 +81,38 @@ func main() {
 
 	for i:= 0; i < hmdCount; i++ {
 		hmd := C.ovrHmd_Create((C.int)(i))
-		fmt.Printf(C.GoString(hmd.ProductName))
+		fmt.Println(C.GoString(hmd.ProductName))
 		C.ovrHmd_Destroy(hmd);
 
 	}
 
-
 	hmd := C.ovrHmd_CreateDebug(6)
-	fmt.Printf(C.GoString(hmd.ProductName))
+	fmt.Println(C.GoString(hmd.ProductName))
 	C.ovrHmd_Destroy(hmd)
 
-	C.ovr_Shutdown();
+	
+
+	/* ***************************************************** */
+
+	//previousTime := glfw.GetTime()
+
+	for !window.ShouldClose() {
+		gl.Clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
+
+		//Update
+		//time := glfw.GetTime();
+		//elapsed := time - previousTime
+		//previousTime = time
+
+
+		//Swap buffers
+		window.SwapBuffers()
+		glfw.PollEvents()
+
+	}
+
+
+	/* *****************  OVR SHUTDOWN  ******************** */
+	C.ovr_Shutdown()
 	
 }

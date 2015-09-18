@@ -1,15 +1,24 @@
 # golang - vr - linux
-##author : Paul Mauviel
+###author : Paul Mauviel
 
 Linux implementation of OVR C API 0.5.1 in GoLang
 
-====== Ongoing ======
+#### ====== Ongoing ======
 
-_ Connect to oculus device server
-_ Add golang gl support
-_ Launch VR window to Oculus DK2
+_ Render primitive cube with camera, etc
+
+_ Render basic scene in VR
+
 _ Add bluetooth input support
 
-===== COMPLETED =====
+
+#### ===== COMPLETED =====
 
 X Connect to OVR SDK
+
+X Connect to the oculus device server
+
+X Enable go-gl support
+
+X Open go-gl / glfw window
+
