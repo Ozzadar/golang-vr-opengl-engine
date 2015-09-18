@@ -18,5 +18,23 @@ func main() {
 	fmt.Printf("Importing worked.\n")
 
 	C.ovr_Initialize(nil)
-	fmt.Printf("Initialized\n")	
+
+	hmdCount := (int)(C.ovrHmd_Detect())
+	fmt.Println(hmdCount)
+	fmt.Printf("Found " + string(hmdCount) + " connected Rift device(s)\n")
+
+	for i:= 0; i < hmdCount; i++ {
+		hmd := C.ovrHmd_Create((C.int)(i))
+		fmt.Printf(C.GoString(hmd.ProductName))
+		C.ovrHmd_Destroy(hmd);
+
+	}
+
+
+	hmd := C.ovrHmd_CreateDebug(6)
+	fmt.Printf(C.GoString(hmd.ProductName))
+	C.ovrHmd_Destroy(hmd)
+
+	C.ovr_Shutdown();
+	
 }
