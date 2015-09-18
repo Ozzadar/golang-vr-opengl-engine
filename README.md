@@ -1,5 +1,5 @@
 # golang - vr - linux
-#author : Paul Mauviel
+##author : Paul Mauviel
 
 Linux implementation of OVR C API 0.5.1 in GoLang
 
