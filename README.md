@@ -1,7 +1,7 @@
 # golang - vr - linux
 ###author : Paul Mauviel
 
-Linux implementation of OVR C API 0.5.1 in GoLang
+Linux implementation of OVR C API 0.5.1 in GoLang. 
 
 #### ====== Ongoing ======
 
@@ -13,6 +13,10 @@ _ Add bluetooth input support
 
 
 #### ===== COMPLETED =====
+
+X Pull head orientation tracking information
+
+X Detect connected HMD devices
 
 X Connect to OVR SDK
 

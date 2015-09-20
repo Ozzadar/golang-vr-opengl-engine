@@ -18,6 +18,7 @@ import (
 
 	"github.com/go-gl/gl/v4.1-core/gl"
 	"github.com/go-gl/glfw/v3.1/glfw"
+	"github.com/go-gl/mathgl/mgl32"
 )
 
 
@@ -39,6 +40,8 @@ func onKey(w *glfw.Window, key glfw.Key, scancode int,
 		}
 }
 
+
+/* *****************  MAIN FUNCTION  ************************ */
 func main() {
 
 	
@@ -78,25 +81,38 @@ func main() {
 
 	C.ovr_Initialize(nil)
 
+	//create an HMD for reference.
+	var hmd C.ovrHmd = nil
+
 	// find number of headsets
 	hmdCount := (int)(C.ovrHmd_Detect())
 	// print headset count
 	fmt.Println(hmdCount)
 	fmt.Printf("Found " + string(hmdCount) + " connected Rift device(s)\n")
 
-	// Create and destroy each headset found
-	for i:= 0; i < hmdCount; i++ {
-		hmd := C.ovrHmd_Create((C.int)(i))
-		//Print headset name
-		fmt.Println(C.GoString(hmd.ProductName))
-		C.ovrHmd_Destroy(hmd);
+	// grab the first headset
+	if hmdCount > 0 {
+		for i:= 0; i < 1; i++ {
+			hmd = C.ovrHmd_Create((C.int)(i))
+			//Print headset name
+			fmt.Println(C.GoString(hmd.ProductName))
+		}
+	}
+
+	//if there is no headset connected, create a new debug.
+	if hmd == nil {
+
+		fmt.Println("Unable to open rift device\n Creating debug device.");
+		hmd = C.ovrHmd_CreateDebug(C.ovrHmd_DK2)
+	}
+
+	//Starts the sensor device
+	if C.ovrHmd_ConfigureTracking(hmd, C.ovrTrackingCap_Orientation, 0) == 0 {
+		fmt.Println("Unable to start Rift head tracker")
 
 	}
 
-	// Create a fake debugging headset, print it's name, then destroy it
-	hmd := C.ovrHmd_CreateDebug(C.ovrHmd_DK2)
-	fmt.Println(C.GoString(hmd.ProductName))
-	C.ovrHmd_Destroy(hmd)
+
 
 	
 
@@ -110,12 +126,23 @@ func main() {
 	for !window.ShouldClose() {
 		gl.Clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
 
+		
 		//Update
 		//time := glfw.GetTime();
 		//elapsed := time - previousTime
 		//previousTime = time
 
+		state := C.ovrHmd_GetTrackingState(hmd, 0)
+		orientation := state.HeadPose.ThePose.Orientation
 
+		var q mgl32.Quat
+		q.W = (float32) (orientation.w)
+		q.V[0] = (float32) (orientation.x)
+		q.V[1] = (float32) (orientation.y)
+		q.V[2] = (float32) (orientation.z)
+
+
+		fmt.Printf("w: %f X: %f Y: %f Z: %f\n", q.W, q.X(), q.Y(), q.Z())
 		//Swap buffers
 		window.SwapBuffers()
 		//Poll for events (keyboard, resize, etc)
@@ -125,6 +152,7 @@ func main() {
 
 
 	/* *****************  OVR SHUTDOWN  ******************** */
+	C.ovrHmd_Destroy(hmd)
 	C.ovr_Shutdown()
 	
 }
