@@ -14,6 +14,8 @@ _ Add bluetooth input support
 
 #### ===== COMPLETED =====
 
+X Render a color to each eye, prepping for 3D
+
 X Pull head orientation tracking information
 
 X Detect connected HMD devices
@@ -22,7 +24,6 @@ X Connect to OVR SDK
 
 X Connect to the oculus device server
 
-X Enable go-gl support
-
 X Open go-gl / glfw window
 
+X Enable go-gl support
