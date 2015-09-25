@@ -9,12 +9,21 @@ import (
 	"github.com/go-gl/gl/v4.1-core/gl"
 )
 
+//Vertex
+type Vertex struct{
+	position [3]float32
+	//color [4]byte
+
+
+}
+
 /*	********** 	Sprite objects 	********** */
 type Sprite struct {
 	x float32
 	y float32
 	width float32
 	height float32
+
 	vertexData [12]float32
 	vbo uint32	//vertex buffer object
 	program uint32
@@ -61,9 +70,12 @@ func (s *Sprite) GetVAO() (VAO uint32) {
   	gl.BufferData(gl.ARRAY_BUFFER, len(s.vertexData)*4, gl.Ptr(&s.vertexData[0]), gl.STATIC_DRAW)
 
   	attrib_loc := uint32(gl.GetAttribLocation(s.program, gl.Str("vert\x00")))
-
+  	color_loc := uint32(gl.GetAttribLocation(s.program, gl.Str("vertColor\x00")))
   	gl.EnableVertexAttribArray(attrib_loc)
  	gl.VertexAttribPointer(attrib_loc, 2, gl.FLOAT, false, 0, nil)
+  	
+  	gl.EnableVertexAttribArray(color_loc)
+ 	gl.VertexAttribPointer(color_loc, 4, gl.FLOAT, false, 0, nil) 	
  	gl.BindBuffer(gl.ARRAY_BUFFER, 0)
 
  	gl.BindVertexArray(0)

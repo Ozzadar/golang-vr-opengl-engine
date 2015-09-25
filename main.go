@@ -73,7 +73,7 @@ func main() {
 	//keyboard input callback
 	window.SetKeyCallback(onKey);
 	spriteprogram := common.LoadShaderProgram("./shaders/vertexShader", "./shaders/fragmentShader")
-	firstSprite.Init(-1,-1,1,1,spriteprogram)
+	firstSprite.Init(-1,-1,0.5,0.5,spriteprogram)
 
 
 
@@ -94,10 +94,6 @@ func main() {
 
 
 	}
-
-
-	/* *****************  OVR SHUTDOWN  ******************** */
-
 	
 }
 
