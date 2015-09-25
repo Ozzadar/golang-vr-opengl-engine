@@ -21,6 +21,10 @@ O 	Sprite Class
 
 _ 	3D Objects
 
+_	Camera
+
+_	Basic User Control
+
 _	Meshes
 
 _  	Render primitive cube with camera, etc
