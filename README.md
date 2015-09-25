@@ -3,27 +3,35 @@
 
 Linux implementation of OVR C API 0.5.1 in GoLang. 
 
+_  	== not started
+
+O 	== in progress
+
+X	== completed
+
 #### ====== Ongoing ======
 
-_ Render primitive cube with camera, etc
+O 	Add helper functions for proper OpenGL implementation
 
-_ Render basic scene in VR
+_  	Render primitive cube with camera, etc
 
-_ Add bluetooth input support
+_  	Render basic scene in VR
+
+_ 	Add bluetooth input support
 
 
 #### ===== COMPLETED =====
 
-X Render a color to each eye, prepping for 3D
+X 	Render a color to each eye, prepping for 3D
 
-X Pull head orientation tracking information
+X 	Pull head orientation tracking information
 
-X Detect connected HMD devices
+X 	Detect connected HMD devices
 
-X Connect to OVR SDK
+X 	Connect to OVR SDK
 
-X Connect to the oculus device server
+X 	Connect to the oculus device server
 
-X Open go-gl / glfw window
+X 	Open go-gl / glfw window
 
-X Enable go-gl support
+X 	Enable go-gl support

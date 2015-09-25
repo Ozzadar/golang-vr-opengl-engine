@@ -1,12 +1,5 @@
-/* REFACTORING OF GOLANG-VR-LINUX TO SUPPORT A MORE ROBUST DEVELOPMENT PIPELINE 
-	STILL BASICALLY IDENTICAL TO LEGACY VERSION, REFACTORING TO COME AFTER OPENGL
-	CALLS ARE MADE
-
-*/
-
 
 package main
-
 //Let's try importing the ovr c library
 
 /*
@@ -17,8 +10,8 @@ package main
 */
 import "C"
 
-import (
 
+import (
 	"fmt"
 	"runtime"
 	"log"
@@ -26,14 +19,57 @@ import (
 	"github.com/go-gl/gl/v4.1-core/gl"
 	"github.com/go-gl/glfw/v3.1/glfw"
 	"github.com/go-gl/mathgl/mgl32"
-	// "./common"  //This includes some shader loaders and program binding functions
-	// "./ovr" 	   //Go wrapper for common OVR functions
 )
+
+
+
 
 func init() {
 
-		runtime.LockOSThread()  //allows for OpenGL
+	init_resources();
+	runtime.LockOSThread()
 }
+
+func init_resources() {
+
+}
+
+func draw(w *glfw.Window) {
+
+	
+	//Get the horizontal split size of the window
+	sizex, sizey := w.GetSize()
+
+	var eyesize mgl32.Vec2
+	eyesize[0] = float32(sizex / 2.0)
+	eyesize[1] = float32(sizey)
+
+	gl.Enable(gl.SCISSOR_TEST)
+
+	gl.Scissor(0,0,int32(eyesize[0]), int32(eyesize[1]))
+	gl.ClearColor(1,0,0,1)
+	gl.Clear(gl.COLOR_BUFFER_BIT)
+
+	gl.Scissor(int32(eyesize[0]),0,int32(eyesize[0]), int32(eyesize[1]))
+	gl.ClearColor(0,0,1,1)
+	gl.Clear(gl.COLOR_BUFFER_BIT)
+
+	gl.Disable(gl.SCISSOR_TEST)
+	
+
+	
+}
+
+/* *****************  KEYBOARD INPUT ******************** */
+func onKey(w *glfw.Window, key glfw.Key, scancode int,
+			action glfw.Action, mods glfw.ModifierKey) {
+
+		if key == glfw.KeyEscape && action == glfw.Press {
+			fmt.Println("Close Window")
+			w.SetShouldClose(true)
+		}
+}
+
 
 /* *****************  MAIN FUNCTION  ************************ */
 func main() {
@@ -43,7 +79,7 @@ func main() {
 	if err:=glfw.Init(); err != nil {
 		log.Fatalln("failed to initialize glfw")
 	}
-	
+
 	defer glfw.Terminate()
 	C.ovr_Initialize(nil)
 
@@ -183,7 +219,7 @@ func main() {
 
 
 
-		render(window);
+		draw(window);
 
 		//Swap buffers
 		window.SwapBuffers()
@@ -200,36 +236,3 @@ func main() {
 	C.ovr_Shutdown()
 	
 }
-
-
-func render(w *glfw.Window) {
-	//Get the horizontal split size of the window
-	sizex, sizey := w.GetSize()
-
-	var eyesize mgl32.Vec2
-	eyesize[0] = float32(sizex / 2.0)
-	eyesize[1] = float32(sizey)
-
-	gl.Enable(gl.SCISSOR_TEST)
-
-	gl.Scissor(0,0,int32(eyesize[0]), int32(eyesize[1]))
-	gl.ClearColor(1,0,0,1)
-	gl.Clear(gl.COLOR_BUFFER_BIT)
-
-	gl.Scissor(int32(eyesize[0]),0,int32(eyesize[0]), int32(eyesize[1]))
-	gl.ClearColor(0,0,1,1)
-	gl.Clear(gl.COLOR_BUFFER_BIT)
-
-	gl.Disable(gl.SCISSOR_TEST)
-}
-
-/* *****************  KEYBOARD INPUT ******************** */
-func onKey(w *glfw.Window, key glfw.Key, scancode int,
-			action glfw.Action, mods glfw.ModifierKey) {
-
-		if key == glfw.KeyEscape && action == glfw.Press {
-			fmt.Println("Close Window")
-			w.SetShouldClose(true)
-		}
-}
-
