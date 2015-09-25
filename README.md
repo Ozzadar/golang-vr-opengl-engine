@@ -27,9 +27,11 @@ _	Basic User Control
 
 _	Meshes
 
-_  	Render primitive cube with camera, etc
+_  	Scenes
 
-_  	Render basic scene in VR
+_  	Render Scenes in VR
+
+_	Advanced Shaders
 
 _ 	Add bluetooth input support
 
