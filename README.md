@@ -1,7 +1,9 @@
 # golang - vr - linux
 ###author : Paul Mauviel
 
-Linux implementation of OVR C API 0.5.1 in GoLang. 
+Linux implementation of OVR C API 0.5.1 in GoLang.
+
+VR Specific code moved to legacy folder while building basic OpenGL engine 
 
 _  	== not started
 
@@ -12,6 +14,14 @@ X	== completed
 #### ====== Ongoing ======
 
 O 	Add helper functions for proper OpenGL implementation
+
+O 	Basic OpenGL Engine implementation
+
+O 	Sprite Class
+
+_ 	3D Objects
+
+_	Meshes
 
 _  	Render primitive cube with camera, etc
 

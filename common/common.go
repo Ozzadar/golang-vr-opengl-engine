@@ -87,7 +87,6 @@ func LoadTriangle(program uint32) (gVAO uint32) {
   gl.VertexAttribPointer(attrib_loc, 3, gl.FLOAT, false, 0, nil)
 
   gl.BindBuffer(gl.ARRAY_BUFFER, 0)
-  clearVA()
 
   return
 }
