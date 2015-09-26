@@ -1,13 +1,13 @@
 #version 330
 
-in vec3 vert;
+in vec2 vert;
 in vec4 vertColor;
 
 out vec4 fragmentColor;
 
 void main() {
   // Does not alter vertices at all
-  gl_Position = vec4(vert, 1.0f);
+  gl_Position = vec4(vert,0.0f, 1.0f);
 
   fragmentColor = vertColor;
 }

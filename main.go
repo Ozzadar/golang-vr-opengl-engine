@@ -24,7 +24,7 @@ import (
 	"log"
 	"./engine"
 
-	"github.com/go-gl/gl/v4.1-core/gl"
+	"github.com/go-gl/gl/v4.5-core/gl"
 	"github.com/go-gl/glfw/v3.1/glfw"
 	//"github.com/go-gl/mathgl/mgl32"
 	 "./common"  //This includes some shader loaders and program binding functions
@@ -73,7 +73,7 @@ func main() {
 	//keyboard input callback
 	window.SetKeyCallback(onKey);
 	spriteprogram := common.LoadShaderProgram("./shaders/vertexShader", "./shaders/fragmentShader")
-	firstSprite.Init(-1,-1,0.5,0.5,spriteprogram)
+	firstSprite.Init(-0.25,-0.25,0.5,0.5,spriteprogram)
 
 
 

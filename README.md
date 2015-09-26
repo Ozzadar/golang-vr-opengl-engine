@@ -19,6 +19,8 @@ O 	Basic OpenGL Engine implementation
 
 O 	Sprite Class
 
+O 	Basic Shaders
+
 _ 	3D Objects
 
 _	Camera

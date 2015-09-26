@@ -1,9 +1,12 @@
 #version 330
 
-out vec4 finalColor;
 in vec4 fragmentColor;
+
+out vec4 color;
+
+uniform float time;
 
 void main() {
   //Set every drawn pixel to white
-  finalColor = vec4(1,1,1,1);
+  color =  vec4(fragmentColor.x * cos(time) + 0.5, fragmentColor.y * sin(time) + 0.5, fragmentColor.z * sin(time) * cos(time) + 0.5, fragmentColor.w);
 }

@@ -11,7 +11,7 @@ import (
   	"io/ioutil"
 	"log"
 	"strings"
-	"github.com/go-gl/gl/v4.1-core/gl"
+	"github.com/go-gl/gl/v4.5-core/gl"
 )
 
 func LoadShader(filename string, shader_type uint32) (shader uint32) {
@@ -58,35 +58,6 @@ func LoadShaderProgram(vertex_shader string, fragment_shader string) (program ui
 
   gl.DetachShader(program, vs)
   gl.DetachShader(program, fs)
-
-  return
-}
-
-func LoadTriangle(program uint32) (gVAO uint32) {
-  var gVBO uint32
-  var vertexData []float32
-  var attrib_loc uint32
-
-  gl.GenVertexArrays(1, &gVAO)
-  gl.BindVertexArray(gVAO)
-
-  gl.GenBuffers(1, &gVBO)
-  gl.BindBuffer(gl.ARRAY_BUFFER, gVBO)
-
-  vertexData = []float32{
-      //    x     y     z
-          0.0,  0.8,  0.0,
-         -0.8, -0.8,  0.0,
-          0.8, -0.8,  0.0,
-  }
-
-  gl.BufferData(gl.ARRAY_BUFFER, len(vertexData)*4, gl.Ptr(vertexData), gl.STATIC_DRAW)
-
-  attrib_loc = uint32(gl.GetAttribLocation(program, gl.Str("vert\x00")))
-  gl.EnableVertexAttribArray(attrib_loc)
-  gl.VertexAttribPointer(attrib_loc, 3, gl.FLOAT, false, 0, nil)
-
-  gl.BindBuffer(gl.ARRAY_BUFFER, 0)
 
   return
 }
